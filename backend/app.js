@@ -21,7 +21,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Uncomment this to enable social authentication
 initPassport(app);
 
+// place route middleware here -------------------------------
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// -----------------------------------------------------------
+
+app.use((req, res, next) => res.json(404, {description: 'API not found.'}));
 
 export default app;

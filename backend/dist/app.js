@@ -58,4 +58,8 @@ app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 app.use('/', _index2.default);
 app.use('/users', _users2.default);
 
+app.use(function (req, res, next) {
+  return res.json(404, { description: 'API not found.' });
+});
+
 exports.default = app;

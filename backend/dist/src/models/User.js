@@ -5,13 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var mongoose = require('mongoose');
 
-// var userSchema = new mongoose.Schema({
-//   userName: { type: String, required: true },
-//   email: { type: String, required: true }
-//   // author: {type: String, default: 'Anon'},
-//   // post: String
-// });
-
 var userSchema = new mongoose.Schema({
   dateJoined: {
     type: Date,
