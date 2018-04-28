@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 
-// var userSchema = new mongoose.Schema({
-//   userName: { type: String, required: true },
-//   email: { type: String, required: true }
-//   // author: {type: String, default: 'Anon'},
-//   // post: String
-// });
-
 let userSchema = new mongoose.Schema({
   dateJoined: { 
     type: Date, 
