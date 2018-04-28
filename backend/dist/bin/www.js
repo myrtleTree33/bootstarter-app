@@ -5,6 +5,10 @@ var _http = require('http');
 
 var _http2 = _interopRequireDefault(_http);
 
+var _winston = require('winston');
+
+var _winston2 = _interopRequireDefault(_winston);
+
 var _app = require('../app');
 
 var _app2 = _interopRequireDefault(_app);
@@ -96,5 +100,5 @@ function onError(error) {
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  _winston2.default.info('Server listening on ' + bind);
 }

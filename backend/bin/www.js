@@ -6,6 +6,7 @@
 
 var debug = require('debug')('backend:server');
 import http from 'http';
+import logger from 'winston';
 
 import app from '../app';
 import config from '../config';
@@ -88,5 +89,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    logger.info(`Server listening on ${bind}`);
 }
