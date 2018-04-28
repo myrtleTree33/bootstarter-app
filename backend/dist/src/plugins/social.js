@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ensureAuthenticated = ensureAuthenticated;
+exports.ensureAuth = ensureAuth;
 
 var _passport = require("passport");
 
@@ -91,7 +91,7 @@ function initGoogle(app) {
  * @param {*} res
  * @param {*} next
  */
-function ensureAuthenticated(req, res, next) {
+function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect("/"); // TODO should redirect to main page?
 }
@@ -103,11 +103,6 @@ function ensureAuthenticated(req, res, next) {
 function initPassport(app) {
   initCore(app);
   initGoogle(app);
-
-  // TODO remove this test route when not needed.
-  app.get("/user", ensureAuthenticated, function (req, res) {
-    res.json({ status: req.user });
-  });
 }
 
 exports.default = initPassport;

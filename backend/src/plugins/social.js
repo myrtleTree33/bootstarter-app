@@ -79,7 +79,7 @@ function initGoogle(app) {
  * @param {*} res
  * @param {*} next
  */
-export function ensureAuthenticated(req, res, next) {
+export function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect("/"); // TODO should redirect to main page?
 }
@@ -91,11 +91,6 @@ export function ensureAuthenticated(req, res, next) {
 function initPassport(app) {
   initCore(app);
   initGoogle(app);
-
-  // TODO remove this test route when not needed.
-  app.get("/user", ensureAuthenticated, (req, res) => {
-    res.json({ status: req.user });
-  });
 }
 
 export default initPassport;

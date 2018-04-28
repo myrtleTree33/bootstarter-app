@@ -24,11 +24,11 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _index = require('./routes/index');
+var _index = require('./src/routes/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _users = require('./routes/users');
+var _users = require('./src/routes/users');
 
 var _users2 = _interopRequireDefault(_users);
 
