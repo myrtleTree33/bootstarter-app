@@ -7,6 +7,12 @@ Bootstarter-App
 
 Running NodeJS Express 
 
+### Launching 
+
+    $ CONFIG=dev npm start
+
+--------------------------------------
+
 ## Frontend
 
 Running on create-react-app
