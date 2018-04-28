@@ -1,14 +1,17 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import logger from './src/config/log.js';  // configure logging first
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import expressLogger from 'morgan';
 
-var app = express();
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import db from './src/config/db';
 
-app.use(logger('dev'));
+const app = express();
+
+app.use(expressLogger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
