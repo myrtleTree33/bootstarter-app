@@ -8,6 +8,7 @@ import expressLogger from 'morgan';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import db from './src/config/db';
+import initPassport from './src/plugins/social';
 
 const app = express();
 
@@ -17,7 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Uncomment this to enable social authentication
+initPassport(app);
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-module.exports = app;
+export default app;

@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _log = require('./src/config/log.js');
 
 var _log2 = _interopRequireDefault(_log);
@@ -32,9 +36,15 @@ var _db = require('./src/config/db');
 
 var _db2 = _interopRequireDefault(_db);
 
+var _social = require('./src/plugins/social');
+
+var _social2 = _interopRequireDefault(_social);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _express2.default)(); // configure logging first
+// configure logging first
+
+var app = (0, _express2.default)();
 
 app.use((0, _morgan2.default)('dev'));
 app.use(_express2.default.json());
@@ -42,7 +52,10 @@ app.use(_express2.default.urlencoded({ extended: false }));
 app.use((0, _cookieParser2.default)());
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
+// Uncomment this to enable social authentication
+(0, _social2.default)(app);
+
 app.use('/', _index2.default);
 app.use('/users', _users2.default);
 
-module.exports = app;
+exports.default = app;
