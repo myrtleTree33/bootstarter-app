@@ -1,5 +1,5 @@
 
-import { ADD_ARTICLE } from "../constants";
+import { ARTICLE_ADD } from "../constants";
 
 const initialState = {
   articles: []
@@ -7,7 +7,7 @@ const initialState = {
 
 const articleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_ARTICLE:
+    case ARTICLE_ADD:
       return { ...state, articles: [...state.articles, action.payload] };
     default:
       return state;
