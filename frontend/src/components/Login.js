@@ -6,6 +6,7 @@ import rootService from '../services';
 class Login extends Component {
   constructor() {
     super();
+
     this.loginGoogle = this.loginGoogle.bind(this);
   }
 
@@ -16,9 +17,7 @@ class Login extends Component {
 
   render() {
     return <div>
-    <p>
-    This is the login page
-    </p>
+      <h1>Login</h1>
     <button onClick={this.loginGoogle}>login with Google</button>
     </div>;
   }
