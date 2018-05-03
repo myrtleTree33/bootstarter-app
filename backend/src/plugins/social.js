@@ -6,6 +6,9 @@ import { Strategy as GoogleStrategy } from "passport-google-auth";
 import config from "../../config";
 import User from "../models/User";
 
+// TODO implement JWT
+// check out https://medium.com/front-end-hacking/learn-using-jwt-with-passport-authentication-9761539c4314
+
 
 /**
  * Initializes passport using server-based storage (sessions)
@@ -67,7 +70,8 @@ function initGoogle(app) {
   app.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      successRedirect: config.socialAuth.frontendRedirectUrl,
+      // successRedirect: config.socialAuth.frontendRedirectUrl,
+      successRedirect: '/',
       failureRedirect: "/auth/google"
     })
   );
@@ -81,6 +85,7 @@ function initGoogle(app) {
  */
 export function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
+  console.log(req.headers);
   res.redirect(config.socialAuth.frontendRedirectUrl); // TODO should redirect to main page?
 }
 

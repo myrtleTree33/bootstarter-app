@@ -44,9 +44,19 @@ var _enableCors = require('./src/plugins/enableCors');
 
 var _enableCors2 = _interopRequireDefault(_enableCors);
 
+var _cors = require('cors');
+
+var _cors2 = _interopRequireDefault(_cors);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _express2.default)(); // configure logging first
+// configure logging first
+
+var app = (0, _express2.default)();
+
+// enable cors 
+// enableCors(app);
+app.use((0, _cors2.default)());
 
 app.use((0, _morgan2.default)('dev'));
 app.use(_express2.default.json());
@@ -54,8 +64,6 @@ app.use(_express2.default.urlencoded({ extended: false }));
 app.use((0, _cookieParser2.default)());
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
-// enable cors 
-(0, _enableCors2.default)(app);
 // Uncomment this to enable social authentication
 (0, _social2.default)(app);
 

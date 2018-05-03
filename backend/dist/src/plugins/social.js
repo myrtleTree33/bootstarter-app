@@ -80,7 +80,8 @@ function initGoogle(app) {
   }));
 
   app.get("/auth/google/callback", _passport2.default.authenticate("google", {
-    successRedirect: _config2.default.socialAuth.frontendRedirectUrl,
+    // successRedirect: config.socialAuth.frontendRedirectUrl,
+    successRedirect: '/',
     failureRedirect: "/auth/google"
   }));
 }
@@ -93,6 +94,7 @@ function initGoogle(app) {
  */
 function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
+  console.log(req.headers);
   res.redirect(_config2.default.socialAuth.frontendRedirectUrl); // TODO should redirect to main page?
 }
 
