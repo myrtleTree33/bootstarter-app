@@ -40,11 +40,13 @@ var _social = require('./src/plugins/social');
 
 var _social2 = _interopRequireDefault(_social);
 
+var _enableCors = require('./src/plugins/enableCors');
+
+var _enableCors2 = _interopRequireDefault(_enableCors);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// configure logging first
-
-var app = (0, _express2.default)();
+var app = (0, _express2.default)(); // configure logging first
 
 app.use((0, _morgan2.default)('dev'));
 app.use(_express2.default.json());
@@ -52,11 +54,16 @@ app.use(_express2.default.urlencoded({ extended: false }));
 app.use((0, _cookieParser2.default)());
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
+// enable cors 
+(0, _enableCors2.default)(app);
+
 // Uncomment this to enable social authentication
 (0, _social2.default)(app);
 
+// place route middleware here -------------------------------
 app.use('/', _index2.default);
 app.use('/users', _users2.default);
+// -----------------------------------------------------------
 
 app.use(function (req, res, next) {
   return res.json(404, { description: 'API not found.' });

@@ -9,6 +9,7 @@ import indexRouter from './src/routes/index';
 import usersRouter from './src/routes/users';
 import db from './src/config/db';
 import initPassport from './src/plugins/social';
+import enableCors from './src/plugins/enableCors';
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// enable cors 
+enableCors(app);
 // Uncomment this to enable social authentication
 initPassport(app);
 

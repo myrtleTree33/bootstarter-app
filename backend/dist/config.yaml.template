@@ -1,0 +1,16 @@
+port: 
+
+db:
+  mongoURI:  ---
+
+socialAuth:
+  session:
+    secret: ---
+    name: ---
+    redis:
+      host: ---
+      port: ---
+  google:
+    clientId: ---
+    clientSecret: ---
+    callbackURL: http://localhost:8081/auth/google/callback
