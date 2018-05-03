@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import rootService from '../services';
-import { Link } from 'react-router-dom';
 
 
 class Login extends Component {
