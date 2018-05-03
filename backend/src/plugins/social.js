@@ -67,7 +67,7 @@ function initGoogle(app) {
   app.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      successRedirect: "/",
+      successRedirect: config.socialAuth.frontendRedirectUrl,
       failureRedirect: "/auth/google"
     })
   );
@@ -81,7 +81,7 @@ function initGoogle(app) {
  */
 export function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
-  res.redirect("/"); // TODO should redirect to main page?
+  res.redirect(config.socialAuth.frontendRedirectUrl); // TODO should redirect to main page?
 }
 
 /**

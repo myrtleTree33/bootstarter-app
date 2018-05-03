@@ -80,7 +80,7 @@ function initGoogle(app) {
   }));
 
   app.get("/auth/google/callback", _passport2.default.authenticate("google", {
-    successRedirect: "/",
+    successRedirect: _config2.default.socialAuth.frontendRedirectUrl,
     failureRedirect: "/auth/google"
   }));
 }
@@ -93,7 +93,7 @@ function initGoogle(app) {
  */
 function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
-  res.redirect("/"); // TODO should redirect to main page?
+  res.redirect(_config2.default.socialAuth.frontendRedirectUrl); // TODO should redirect to main page?
 }
 
 /**

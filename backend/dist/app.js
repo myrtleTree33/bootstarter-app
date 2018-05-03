@@ -56,7 +56,6 @@ app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
 // enable cors 
 (0, _enableCors2.default)(app);
-
 // Uncomment this to enable social authentication
 (0, _social2.default)(app);
 
