@@ -9,15 +9,15 @@ var _passport = require("passport");
 
 var _passport2 = _interopRequireDefault(_passport);
 
-var _cookieParser = require("cookie-parser");
-
-var _cookieParser2 = _interopRequireDefault(_cookieParser);
-
-var _expressSession = require("express-session");
-
-var _expressSession2 = _interopRequireDefault(_expressSession);
-
 var _passportGoogleAuth = require("passport-google-auth");
+
+var _passportJwt = require("passport-jwt");
+
+var _passportJwt2 = _interopRequireDefault(_passportJwt);
+
+var _jsonwebtoken = require("jsonwebtoken");
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
 var _config = require("../../config");
 
@@ -29,32 +29,44 @@ var _User2 = _interopRequireDefault(_User);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// TODO implement JWT
+// check out https://medium.com/front-end-hacking/learn-using-jwt-with-passport-authentication-9761539c4314
+
+//     // 		host: config.socialAuth.session.redis.host,
+
 /**
  * Initializes passport using server-based storage (sessions)
  * 
  * @param {*} app 
  */
 function initCore(app) {
+  app.use(_passport2.default.initialize());
   _passport2.default.serializeUser(function (user, done) {
     return done(null, user);
   });
   _passport2.default.deserializeUser(function (user, done) {
     return done(null, user);
   });
-  app.use((0, _cookieParser2.default)());
-  app.use((0, _expressSession2.default)({
-    secret: _config2.default.socialAuth.session.secret,
-    name: _config2.default.socialAuth.session.name,
-    // 	store:  new redisstore({
-    // 		host: config.socialAuth.session.redis.host,
-    // 		port: config.socialAuth.session.redis.port
-    // 	}),
-    proxy: true,
-    resave: true,
-    saveUninitialized: true
+  // set JWT options
+  var jwtOptions = {
+    // Get the JWT from the "Authorization" header.
+    // By default this looks for a "JWT " prefix
+    jwtFromRequest: _passportJwt2.default.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: _config2.default.socialAuth.jwt.secret,
+    issuer: _config2.default.socialAuth.jwt.issuer,
+    audience: _config2.default.socialAuth.jwt.audience
+  };
+
+  _passport2.default.use(new _passportJwt2.default.Strategy(jwtOptions, function (payload, done) {
+    var userId = payload.sub;
+    _User2.default.findById(userId).then(function (user) {
+      return done(null, user, payload);
+    }).catch(function (err) {
+      return done(err);
+    });
   }));
-  app.use(_passport2.default.initialize());
-  app.use(_passport2.default.session());
+
+  // TODO https://www.sitepoint.com/spa-social-login-google-facebook/
 }
 
 /**
@@ -62,6 +74,9 @@ function initCore(app) {
  *
  * @param {Object} app
  */
+
+// import cookieParser from "cookie-parser";
+// import session from "express-session";
 function initGoogle(app) {
   _passport2.default.use(new _passportGoogleAuth.Strategy({
     clientId: _config2.default.socialAuth.google.clientId,
@@ -75,15 +90,31 @@ function initGoogle(app) {
     });
   }));
 
-  app.get("/auth/google", _passport2.default.authenticate("google", {
+  function generateAccessToken(userId) {
+    var secret = _config2.default.socialAuth.jwt.secret;
+    var token = _jsonwebtoken2.default.sign({}, secret, {
+      expiresIn: '1h',
+      audience: _config2.default.socialAuth.jwt.audience,
+      issuer: _config2.default.socialAuth.jwt.issuer,
+      subject: userId.toString()
+    });
+    return token;
+  }
+
+  app.get('/auth/google', _passport2.default.authenticate('google', {
     scope: ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/userinfo.email"]
   }));
 
-  app.get("/auth/google/callback", _passport2.default.authenticate("google", {
-    // successRedirect: config.socialAuth.frontendRedirectUrl,
-    successRedirect: '/',
-    failureRedirect: "/auth/google"
-  }));
+  app.get('/auth/google/callback', function (req, res, next) {
+    _passport2.default.authenticate('google', function (err, user, info) {
+      if (err) {
+        return next(err);
+      };
+      var token = generateAccessToken(user._id);
+      console.log(token);
+      return res.json({ token: token });
+    })(req, res, next);
+  });
 }
 
 /**
@@ -93,9 +124,7 @@ function initGoogle(app) {
  * @param {*} next
  */
 function ensureAuth(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  console.log(req.headers);
-  res.redirect(_config2.default.socialAuth.frontendRedirectUrl); // TODO should redirect to main page?
+  return _passport2.default.authenticate('jwt', { session: false });
 }
 
 /**

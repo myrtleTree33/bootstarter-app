@@ -13,4 +13,4 @@ socialAuth:
   google:
     clientId: ---
     clientSecret: ---
-    callbackURL: http://localhost:8081/auth/google/callback
+    callbackURL: ---
