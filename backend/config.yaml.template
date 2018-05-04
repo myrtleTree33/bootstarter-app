@@ -4,12 +4,10 @@ db:
   mongoURI:  ---
 
 socialAuth:
-  session:
+  jwt:
     secret: ---
-    name: ---
-    redis:
-      host: ---
-      port: ---
+    issuer: ---
+    audience: ---
   google:
     clientId: ---
     clientSecret: ---
