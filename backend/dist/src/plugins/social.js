@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ensureAuth = ensureAuth;
+exports.ensureAuth = undefined;
+exports.default = initPassport;
 
 var _passport = require("passport");
 
@@ -31,14 +32,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // TODO implement JWT
 // check out https://medium.com/front-end-hacking/learn-using-jwt-with-passport-authentication-9761539c4314
+// TODO https://www.sitepoint.com/spa-social-login-google-facebook/
 
-//     // 		host: config.socialAuth.session.redis.host,
+function generateAccessToken(userId) {
+  var secret = _config2.default.socialAuth.jwt.secret;
+  var token = _jsonwebtoken2.default.sign({}, secret, {
+    expiresIn: "1h",
+    audience: _config2.default.socialAuth.jwt.audience,
+    issuer: _config2.default.socialAuth.jwt.issuer,
+    subject: userId.toString()
+  });
+  return token;
+}
 
 /**
  * Initializes passport using server-based storage (sessions)
- * 
- * @param {*} app 
+ *
+ * @param {*} app
  */
+
+// import cookieParser from "cookie-parser";
+// import session from "express-session";
 function initCore(app) {
   app.use(_passport2.default.initialize());
   _passport2.default.serializeUser(function (user, done) {
@@ -51,7 +65,7 @@ function initCore(app) {
   var jwtOptions = {
     // Get the JWT from the "Authorization" header.
     // By default this looks for a "JWT " prefix
-    jwtFromRequest: _passportJwt2.default.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: _passportJwt2.default.ExtractJwt.fromAuthHeaderWithScheme("jwt"),
     secretOrKey: _config2.default.socialAuth.jwt.secret,
     issuer: _config2.default.socialAuth.jwt.issuer,
     audience: _config2.default.socialAuth.jwt.audience
@@ -65,8 +79,6 @@ function initCore(app) {
       return done(err);
     });
   }));
-
-  // TODO https://www.sitepoint.com/spa-social-login-google-facebook/
 }
 
 /**
@@ -74,9 +86,6 @@ function initCore(app) {
  *
  * @param {Object} app
  */
-
-// import cookieParser from "cookie-parser";
-// import session from "express-session";
 function initGoogle(app) {
   _passport2.default.use(new _passportGoogleAuth.Strategy({
     clientId: _config2.default.socialAuth.google.clientId,
@@ -90,42 +99,25 @@ function initGoogle(app) {
     });
   }));
 
-  function generateAccessToken(userId) {
-    var secret = _config2.default.socialAuth.jwt.secret;
-    var token = _jsonwebtoken2.default.sign({}, secret, {
-      expiresIn: '1h',
-      audience: _config2.default.socialAuth.jwt.audience,
-      issuer: _config2.default.socialAuth.jwt.issuer,
-      subject: userId.toString()
-    });
-    return token;
-  }
-
-  app.get('/auth/google', _passport2.default.authenticate('google', {
+  app.get("/auth/google", _passport2.default.authenticate("google", {
     scope: ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/userinfo.email"]
   }));
 
-  app.get('/auth/google/callback', function (req, res, next) {
+  app.get("/auth/google/callback", function (req, res, next) {
     _passport2.default.authenticate('google', function (err, user, info) {
       if (err) {
         return next(err);
-      };
+      }
       var token = generateAccessToken(user._id);
-      console.log(token);
       return res.json({ token: token });
     })(req, res, next);
   });
 }
 
 /**
- * Use this middleware for protected routes needing authentication.
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * Use this to protect endpoints which need authentication.
  */
-function ensureAuth(req, res, next) {
-  return _passport2.default.authenticate('jwt', { session: false });
-}
+var ensureAuth = exports.ensureAuth = _passport2.default.authenticate("jwt", { session: false });
 
 /**
  * Initializes social authentication using passport
@@ -135,5 +127,3 @@ function initPassport(app) {
   initCore(app);
   initGoogle(app);
 }
-
-exports.default = initPassport;
