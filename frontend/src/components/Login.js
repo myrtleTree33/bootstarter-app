@@ -15,16 +15,8 @@ class Login extends Component {
   constructor() {
     super();
 
-    this.loginGoogle = this.loginGoogle.bind(this);
     this.handleSocialLogin = this.handleSocialLogin.bind(this);
     this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
-  }
-
-  componentDidMount() {
-    console.log("here");
-    setTimeout(() => {
-      this.props.signIn();
-    }, 2000);
   }
 
   handleSocialLogin(user) {
@@ -38,12 +30,7 @@ class Login extends Component {
   }
 
   handleSocialLoginFailure(err) {
-    console.error(err);
-  }
-
-  loginGoogle(e) {
-    e.preventDefault();
-    userService.loginGoogle();
+    console.error('Unable to login user');
   }
 
   render() {
@@ -59,8 +46,6 @@ class Login extends Component {
         >
           Login with google
         </SocialButton>
-
-        <button onClick={this.loginGoogle}>login with Google deprecated</button>
       </div>
     );
   }
