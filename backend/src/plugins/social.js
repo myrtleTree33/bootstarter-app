@@ -2,6 +2,7 @@ import passport from "passport";
 // import cookieParser from "cookie-parser";
 // import session from "express-session";
 import { Strategy as GoogleStrategy } from "passport-google-auth";
+import { Strategy as GoogleTokenStrategy } from "passport-google-token";
 import passportJwt from "passport-jwt";
 import jwt from "jsonwebtoken";
 
@@ -89,9 +90,34 @@ function initGoogle(app) {
         return next(err);
       }
       const token = generateAccessToken(user._id);
+      console.log(`Token=${token}`);
       return res.json({ token });
     })(req, res, next);
   });
+}
+
+function initGoogleToken(app) {
+  const { clientId, clientSecret } = config.socialAuth.google;
+  passport.use(
+    new GoogleTokenStrategy(
+      { clientID: clientId, clientSecret: clientSecret },
+      (accessToken, refreshToken, profile, next) => {
+        User.upsertGoogleUser(accessToken, refreshToken, profile)
+          .then(user => next(null, user))
+          .catch(err => next(createError(400)));
+      }
+    )
+  );
+
+  app.post(
+    "/auth/google/token",
+    passport.authenticate("google-token"),
+    (req, res) => {
+      const {user} = req;
+      const token = generateAccessToken(user._id);
+      return res.json({ token, user });
+    }
+  );
 }
 
 /**
@@ -106,4 +132,5 @@ export const ensureAuth = passport.authenticate("jwt", { session: false });
 export default function initPassport(app) {
   initCore(app);
   initGoogle(app);
+  initGoogleToken(app);
 }

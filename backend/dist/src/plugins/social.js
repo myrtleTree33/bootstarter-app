@@ -12,6 +12,8 @@ var _passport2 = _interopRequireDefault(_passport);
 
 var _passportGoogleAuth = require("passport-google-auth");
 
+var _passportGoogleToken = require("passport-google-token");
+
 var _passportJwt = require("passport-jwt");
 
 var _passportJwt2 = _interopRequireDefault(_passportJwt);
@@ -34,6 +36,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // check out https://medium.com/front-end-hacking/learn-using-jwt-with-passport-authentication-9761539c4314
 // TODO https://www.sitepoint.com/spa-social-login-google-facebook/
 
+// import cookieParser from "cookie-parser";
+// import session from "express-session";
 function generateAccessToken(userId) {
   var secret = _config2.default.socialAuth.jwt.secret;
   var token = _jsonwebtoken2.default.sign({}, secret, {
@@ -50,9 +54,6 @@ function generateAccessToken(userId) {
  *
  * @param {*} app
  */
-
-// import cookieParser from "cookie-parser";
-// import session from "express-session";
 function initCore(app) {
   app.use(_passport2.default.initialize());
   _passport2.default.serializeUser(function (user, done) {
@@ -104,13 +105,35 @@ function initGoogle(app) {
   }));
 
   app.get("/auth/google/callback", function (req, res, next) {
-    _passport2.default.authenticate('google', function (err, user, info) {
+    _passport2.default.authenticate("google", function (err, user, info) {
       if (err) {
         return next(err);
       }
       var token = generateAccessToken(user._id);
+      console.log("Token=" + token);
       return res.json({ token: token });
     })(req, res, next);
+  });
+}
+
+function initGoogleToken(app) {
+  var _config$socialAuth$go = _config2.default.socialAuth.google,
+      clientId = _config$socialAuth$go.clientId,
+      clientSecret = _config$socialAuth$go.clientSecret;
+
+  _passport2.default.use(new _passportGoogleToken.Strategy({ clientID: clientId, clientSecret: clientSecret }, function (accessToken, refreshToken, profile, next) {
+    _User2.default.upsertGoogleUser(accessToken, refreshToken, profile).then(function (user) {
+      return next(null, user);
+    }).catch(function (err) {
+      return next(createError(400));
+    });
+  }));
+
+  app.post("/auth/google/token", _passport2.default.authenticate("google-token"), function (req, res) {
+    var user = req.user;
+
+    var token = generateAccessToken(user._id);
+    return res.json({ token: token, user: user });
   });
 }
 
@@ -126,4 +149,5 @@ var ensureAuth = exports.ensureAuth = _passport2.default.authenticate("jwt", { s
 function initPassport(app) {
   initCore(app);
   initGoogle(app);
+  initGoogleToken(app);
 }

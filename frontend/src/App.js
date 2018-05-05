@@ -5,6 +5,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import JwtAuth from './components/JwtAuth';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
+          <Route path="/user/jwt" component={JwtAuth} />
         </Switch>
       </div>
     );
