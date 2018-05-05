@@ -28,7 +28,13 @@ class Login extends Component {
   }
 
   handleSocialLogin(user) {
-    console.log(user);
+    const token = user._token.accessToken;
+    userService.loginGoogle(token).then(res => {
+      const { user, token } = res;
+      console.log(`Logged in successfully!  Token=${token}`);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+    });
   }
 
   handleSocialLoginFailure(err) {

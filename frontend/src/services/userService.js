@@ -6,9 +6,15 @@ import {
 
 /* global fetch */
 
-export function loginGoogle() {
-  // login directly to window loc
-  return (window.location.href = SERVICE_USER_GOOGLE_LOGIN_URL);
+export function loginGoogle(token) {
+  return fetch("http://localhost:8081/auth/google/token", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({ access_token: token })
+  }).then(res => res.json());
 }
 
 export function logoutGoogle() {
@@ -16,7 +22,7 @@ export function logoutGoogle() {
 }
 
 export function getUser() {
-  console.log('I GOT CALLED');
+  console.log("I GOT CALLED");
   return fetch(SERVICE_USER_GOOGLE_USER_GET_URL).then(res => res.json());
 }
 
