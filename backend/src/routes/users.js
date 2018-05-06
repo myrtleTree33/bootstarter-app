@@ -1,5 +1,5 @@
-import express from 'express';
-import passport from 'passport';
+import express from "express";
+import passport from "passport";
 
 import { ensureAuth } from "../plugins/social";
 
@@ -10,7 +10,7 @@ router.get("/", function(req, res, next) {
 });
 
 router.get("/user", ensureAuth, (req, res) => {
-  res.json({ status: req.user });
+  res.json({ user: req.user });
 });
 
 // router.get("/user", passport.authenticate('jwt', { session: false }), (req, res) => {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import SocialLogin from "react-social-login";
 import { signIn } from "../actions/userActions";
@@ -26,11 +27,12 @@ class Login extends Component {
       console.log(`Logged in successfully!  Token=${token}`);
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      this.props.history.push('/');
     });
   }
 
   handleSocialLoginFailure(err) {
-    console.error('Unable to login user');
+    console.error("Unable to login user");
   }
 
   render() {
@@ -55,4 +57,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { signIn })(Login);
+export default connect(mapStateToProps, { signIn })(withRouter(Login));

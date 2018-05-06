@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _passport = require('passport');
+var _passport = require("passport");
 
 var _passport2 = _interopRequireDefault(_passport);
 
-var _social = require('../plugins/social');
+var _social = require("../plugins/social");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,7 +23,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/user", _social.ensureAuth, function (req, res) {
-  res.json({ status: req.user });
+  res.json({ user: req.user });
 });
 
 // router.get("/user", passport.authenticate('jwt', { session: false }), (req, res) => {

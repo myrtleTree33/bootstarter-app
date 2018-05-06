@@ -4,17 +4,13 @@ import {
   SERVICE_USER_GOOGLE_USER_GET_URL
 } from "../constants";
 
-/* global fetch */
+import { fetchJson, fetchJsonAuth } from "./_fetchUtils";
 
 export function loginGoogle(token) {
-  return fetch("http://localhost:8081/auth/google/token", {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
+  return fetchJson(SERVICE_USER_GOOGLE_LOGIN_URL, {
     method: "POST",
     body: JSON.stringify({ access_token: token })
-  }).then(res => res.json());
+  });
 }
 
 export function logoutGoogle() {
@@ -22,8 +18,8 @@ export function logoutGoogle() {
 }
 
 export function getUser() {
-  console.log("I GOT CALLED");
-  return fetch(SERVICE_USER_GOOGLE_USER_GET_URL).then(res => res.json());
+  console.log("Get user got called");
+  return fetchJsonAuth(SERVICE_USER_GOOGLE_USER_GET_URL);
 }
 
 export default { loginGoogle, logoutGoogle, getUser };

@@ -7,7 +7,10 @@ class Protected extends Component {
   }
 
   render() {
-    return <div>this is a protected route</div>;
+    return <div>
+      <p>this is a protected route</p>
+      <p>User details: {localStorage.getItem('user')}</p>
+      </div>;
   }
 }
 
