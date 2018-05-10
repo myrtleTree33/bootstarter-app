@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import uuidv1 from "uuid/v1";
 
-import * as articleActions from "../actions";
+import * as articlesActions from "../actions/articles";
 
 class Form extends Component {
   constructor() {
@@ -49,7 +49,7 @@ class Form extends Component {
 }
 
 function mapDispatch(dispatch) {
-  return bindActionCreators(articleActions, dispatch);
+  return bindActionCreators(articlesActions, dispatch);
 }
 
 export default connect(null, mapDispatch)(Form);
