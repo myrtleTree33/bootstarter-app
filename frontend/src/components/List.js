@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
-  return { articles: state.article.articles };
-};
-
-const ConnectedList = ({ articles }) => (
+const List = ({ articles }) => (
   <ul>{articles.map(el => <li key={el.id}>{el.title}</li>)}</ul>
 );
 
-const List = connect(mapStateToProps)(ConnectedList);
+function mapState(state) {
+  return { articles: state.articles };
+}
 
-export default List;
+export default connect(mapState, null)(List);

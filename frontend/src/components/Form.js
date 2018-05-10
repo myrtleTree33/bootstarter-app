@@ -1,16 +1,11 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import uuidv1 from "uuid/v1";
-import { articleAdd } from "../actions";
+import * as articleActions from "../actions";
 
-const mapDispatchToProps = dispatch => {
-  return {
-    articleAdd: article => dispatch(articleAdd(article))
-  };
-};
-
-class ConnectedForm extends Component {
+class Form extends Component {
   constructor() {
     super();
     this.state = {
@@ -30,11 +25,11 @@ class ConnectedForm extends Component {
     const { title } = this.state;
     const id = uuidv1();
     this.props.articleAdd({ title, id });
-    this.setState({ title: '' });
+    this.setState({ title: "" });
   }
 
   render() {
-    const {title} = this.state;
+    const { title } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -52,6 +47,8 @@ class ConnectedForm extends Component {
   }
 }
 
-const Form = connect(null, mapDispatchToProps)(ConnectedForm);
+function mapDispatch(dispatch) {
+  return bindActionCreators(articleActions, dispatch);
+}
 
-export default Form;
+export default connect(null, mapDispatch)(Form);
