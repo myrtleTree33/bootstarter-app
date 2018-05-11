@@ -52,8 +52,8 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapState(state) {
   return {};
 }
 
-export default connect(mapStateToProps, null)(withRouter(Login));
+export default connect(mapState, null)(withRouter(Login));

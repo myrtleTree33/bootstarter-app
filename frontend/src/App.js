@@ -4,8 +4,8 @@ import { Redirect, Link, Switch, Route } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 import Home from "./screens/Home";
-import Login from "./components/Login";
-import Protected from "./components/Protected";
+import Login from "./screens/Login";
+import Protected from "./screens/Protected";
 import userService from "./services/user";
 
 /**
