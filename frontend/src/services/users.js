@@ -2,7 +2,7 @@ import {
   SERVICE_USER_GOOGLE_LOGIN_URL,
   SERVICE_USER_GOOGLE_LOGOUT_URL,
   SERVICE_USER_GOOGLE_USER_GET_URL
-} from "../constants/services/user.js";
+} from "../constants/services/users.js";
 
 import { fetchJson, fetchJsonAuth } from "./_fetchUtils";
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import SocialLogin from "react-social-login";
-import * as userService from "../services/user";
+import userService from "../services/users";
 
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
   <button onClick={triggerLogin} {...props}>

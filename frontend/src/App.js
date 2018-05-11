@@ -6,7 +6,7 @@ import "./App.css";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Protected from "./screens/Protected";
-import userService from "./services/user";
+import userService from "./services/users";
 
 /**
  * Allows the creation of a protected route, if the user is not signed in.
