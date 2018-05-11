@@ -1,5 +1,5 @@
 import { createReducer } from "./baseReducer";
-import { ARTICLE_ADD } from "../constants/articles";
+import { ARTICLE_ADD } from "../constants/redux/articles";
 
 const initialState = [];
 

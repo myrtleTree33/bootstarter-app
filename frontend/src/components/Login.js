@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import SocialLogin from "react-social-login";
-import { signIn } from "../actions/userActions";
 import * as userService from "../services/userService";
 
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
@@ -57,4 +56,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { signIn })(withRouter(Login));
+export default connect(mapStateToProps, null)(withRouter(Login));
