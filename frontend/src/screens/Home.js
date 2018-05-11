@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import Form from "./Form";
-import List from "./List";
+import Todo from '../components/Todo/Todo';
 
 class Home extends Component {
   constructor() {
@@ -12,8 +11,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Form />
-        <List />
+        <Todo/>
       </div>
     );
   }
