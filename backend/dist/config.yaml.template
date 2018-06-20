@@ -1,14 +1,15 @@
-port: 
+port: 8081
 
 db:
-  mongoURI:  ---
+  mongoURI: ---
 
 socialAuth:
   jwt:
     secret: ---
     issuer: ---
     audience: ---
+  frontendRedirectUrl: http://localhost:8080
   google:
     clientId: ---
     clientSecret: ---
-    callbackURL: ---
+    callbackURL: http://localhost:8081/auth/google/callback

@@ -10,6 +10,10 @@ socialAuth:
     audience: ---
   frontendRedirectUrl: http://localhost:8080
   google:
-    clientId: ---
+    clientID: ---
     clientSecret: ---
     callbackURL: http://localhost:8081/auth/google/callback
+  facebook:
+    clientID: ---
+    clientSecret: ---
+    callbackURL: http://localhost:8081/auth/facebook/callback
