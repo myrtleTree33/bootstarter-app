@@ -64,3 +64,5 @@ typings/
 !config.yaml.template
 config.*.yaml
 
+# Dist directory (created when compiling ES6)
+dist/
