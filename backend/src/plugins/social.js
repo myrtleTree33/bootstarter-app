@@ -5,6 +5,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-auth";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Strategy as GoogleTokenStrategy } from "passport-google-token";
+import FacebookTokenStrategy from "passport-facebook-token";
 import passportJwt from "passport-jwt";
 import jwt from "jsonwebtoken";
 
@@ -167,7 +168,28 @@ function initFacebook(app) {
 }
 
 function initFacebookToken(app) {
-  // TODO ------------------------------------
+  const { clientID, clientSecret } = config.socialAuth.facebook;
+  passport.use(
+    new FacebookTokenStrategy(
+      { clientID, clientSecret },
+      (accessToken, refreshToken, profile, next) => {
+        User.upsertFacebookUser(accessToken, refreshToken, profile)
+          .then(user => next(null, user))
+          .catch(err => next(createError(400)));
+      }
+    )
+  );
+
+  app.post(
+    "/auth/facebook/token",
+    passport.authenticate("facebook-token"),
+    (req, res) => {
+      const { user } = req;
+      const token = generateAccessToken(user._id);
+      return res.json({ token, user });
+    }
+  );
+
   logger.info("Initiated Facebook token login auth!");
 }
 
@@ -185,5 +207,5 @@ export default function initPassport(app) {
   initGoogle(app);
   initGoogleToken(app);
   initFacebook(app);
-  // initFacebookToken(app);
+  initFacebookToken(app);
 }

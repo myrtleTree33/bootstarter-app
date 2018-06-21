@@ -15,18 +15,33 @@ class Login extends Component {
   constructor() {
     super();
 
-    this.handleSocialLogin = this.handleSocialLogin.bind(this);
+    this._handlePostLogin = this._handlePostLogin.bind(this);
+    this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
+    this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
     this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
   }
 
-  handleSocialLogin(user) {
-    const token = user._token.accessToken;
-    userService.loginGoogle(token).then(res => {
-      const { user, token } = res;
+  _handlePostLogin(token, user) {
       console.log(`Logged in successfully!  Token=${token}`);
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      this.props.history.push('/');
+      this.props.history.push("/");
+  }
+
+  handleGoogleLogin(user) {
+    const token = user._token.accessToken;
+    userService.loginGoogle(token).then(res => {
+      const { user, token } = res;
+      this._handlePostLogin(token, user);
+    });
+  }
+
+  handleFacebookLogin(user) {
+    const token = user._token.accessToken;
+    console.log(token);
+    userService.loginFacebook(token).then(res => {
+      const { user, token } = res;
+      this._handlePostLogin(token, user);
     });
   }
 
@@ -39,14 +54,27 @@ class Login extends Component {
       <div>
         <h1>Login</h1>
 
-        <SocialButton
-          provider="google"
-          appId="883436095959-sb5giars0htif4j30tk9a2828r9fi748.apps.googleusercontent.com"
-          onLoginSuccess={this.handleSocialLogin}
-          onLoginFailure={this.handleSocialLoginFailure}
-        >
-          Login with google
-        </SocialButton>
+        <p>
+          <SocialButton
+            provider="google"
+            appId={process.env.REACT_APP_GOOGLE_APP_ID}
+            onLoginSuccess={this.handleGoogleLogin}
+            onLoginFailure={this.handleSocialLoginFailure}
+          >
+            Login with Google
+          </SocialButton>
+        </p>
+
+        <p>
+          <SocialButton
+            provider="facebook"
+            appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+            onLoginSuccess={this.handleFacebookLogin}
+            onLoginFailure={this.handleSocialLoginFailure}
+          >
+            Login with Facebook
+          </SocialButton>
+        </p>
       </div>
     );
   }
@@ -56,4 +84,7 @@ function mapState(state) {
   return {};
 }
 
-export default connect(mapState, null)(withRouter(Login));
+export default connect(
+  mapState,
+  null
+)(withRouter(Login));
