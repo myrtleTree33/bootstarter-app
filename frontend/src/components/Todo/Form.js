@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import uuidv1 from "uuid/v1";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import uuidv1 from 'uuid/v1';
 
 class Form extends Component {
   constructor() {
     super();
     this.state = {
-      title: ""
+      title: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,7 +22,7 @@ class Form extends Component {
     const { title } = this.state;
     const id = uuidv1();
     this.props.articleAdd({ title, id });
-    this.setState({ title: "" });
+    this.setState({ title: '' });
   }
 
   render() {

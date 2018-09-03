@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Protected extends Component {
   constructor() {
@@ -7,10 +7,12 @@ class Protected extends Component {
   }
 
   render() {
-    return <div>
-      <p>this is a protected route</p>
-      <p>User details: {localStorage.getItem('user')}</p>
-      </div>;
+    return (
+      <div>
+        <p>this is a protected route</p>
+        <p>User details: {localStorage.getItem('user')}</p>
+      </div>
+    );
   }
 }
 

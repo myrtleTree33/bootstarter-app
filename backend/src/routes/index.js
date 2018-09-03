@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ensureAuth } from "../plugins/social";
+import { ensureAuth } from '../plugins/social';
 
 let router = express.Router();
 

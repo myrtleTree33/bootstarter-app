@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import Form from "./Form.js";
-import List from "./List.js";
+import Form from './Form.js';
+import List from './List.js';
 
-import * as articlesActions from "../../actions/articles";
+import * as articlesActions from '../../actions/articles';
 
 class Todo extends Component {
   constructor() {
@@ -16,8 +16,8 @@ class Todo extends Component {
   render() {
     return (
       <div>
-        <Form articleAdd={ this.props.articleAdd } />
-        <List articles={this.props.articles} /> 
+        <Form articleAdd={this.props.articleAdd} />
+        <List articles={this.props.articles} />
       </div>
     );
   }
@@ -31,4 +31,7 @@ function mapDispatch(dispatch) {
   return bindActionCreators(articlesActions, dispatch);
 }
 
-export default connect(mapState, mapDispatch)(Todo);
+export default connect(
+  mapState,
+  mapDispatch
+)(Todo);

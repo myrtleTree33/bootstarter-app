@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Redirect, Link, Switch, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import { Redirect, Link, Switch, Route } from 'react-router-dom';
 
-import logo from "./logo.svg";
-import "./App.css";
-import Home from "./screens/Home";
-import Login from "./screens/Login";
-import Protected from "./screens/Protected";
-import userService from "./services/users";
+import logo from './logo.svg';
+import './App.css';
+import Home from './screens/Home';
+import Login from './screens/Login';
+import Protected from './screens/Protected';
+import userService from './services/users';
 
 /**
  * Allows the creation of a protected route, if the user is not signed in.
@@ -14,7 +14,7 @@ import userService from "./services/users";
  */
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // TODO refactor this if needed
-  const isAuthenticated = localStorage.getItem("token");
+  const isAuthenticated = localStorage.getItem('token');
   return (
     <Route
       {...rest}
@@ -26,26 +26,25 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 class App extends Component {
-  
   constructor() {
     super();
     this.bootstrapUser = this.bootstrapUser.bind(this);
   }
-  
+
   componentDidMount() {
     this.bootstrapUser();
   }
-  
+
   bootstrapUser() {
     userService
       .getUser()
       .then(res => {
         const { user } = res;
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
       })
       .catch(err => console.error(`Unable to connect to backend API=${err}`));
   }
-  
+
   render() {
     return (
       <div className="App">

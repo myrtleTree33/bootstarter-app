@@ -1,15 +1,15 @@
-import express from "express";
-import passport from "passport";
+import express from 'express';
+import passport from 'passport';
 
-import { ensureAuth } from "../plugins/social";
+import { ensureAuth } from '../plugins/social';
 
 let router = express.Router();
 
-router.get("/", function(req, res, next) {
-  res.send("respond with a resource");
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
 });
 
-router.get("/user", ensureAuth, (req, res) => {
+router.get('/user', ensureAuth, (req, res) => {
   res.json({ user: req.user });
 });
 

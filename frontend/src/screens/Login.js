@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import SocialLogin from "react-social-login";
-import userService from "../services/users";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import SocialLogin from 'react-social-login';
+import userService from '../services/users';
 
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
   <button onClick={triggerLogin} {...props}>
@@ -22,10 +22,10 @@ class Login extends Component {
   }
 
   _handlePostLogin(token, user) {
-      console.log(`Logged in successfully!  Token=${token}`);
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      this.props.history.push("/");
+    console.log(`Logged in successfully!  Token=${token}`);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    this.props.history.push('/');
   }
 
   handleGoogleLogin(user) {
@@ -46,7 +46,7 @@ class Login extends Component {
   }
 
   handleSocialLoginFailure(err) {
-    console.error("Unable to login user");
+    console.error('Unable to login user');
   }
 
   render() {
