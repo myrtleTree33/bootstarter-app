@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
   dateJoined: {
@@ -39,7 +39,7 @@ let userSchema = new mongoose.Schema({
 userSchema.statics.upsertGoogleUser = function(token, tokenSecret, profile) {
   console.log(profile);
   return this.findOneAndUpdate(
-    { "googleProvider.id": profile.id },
+    { 'googleProvider.id': profile.id },
     {
       firstName: profile.name.givenName,
       lastName: profile.name.familyName,
@@ -52,7 +52,7 @@ userSchema.statics.upsertGoogleUser = function(token, tokenSecret, profile) {
 
 userSchema.statics.upsertFacebookUser = function(token, tokenSecret, profile) {
   return this.findOneAndUpdate(
-    { "facebookProvider.id": profile.id },
+    { 'facebookProvider.id': profile.id },
     {
       firstName: profile.name.givenName,
       lastName: profile.name.familyName,
@@ -67,4 +67,4 @@ userSchema.statics.upsertFacebookUser = function(token, tokenSecret, profile) {
   );
 };
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model('User', userSchema);
