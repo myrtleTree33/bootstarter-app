@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Field, Control, Input, Button } from 'bloomer';
+
 import SocialLogin from 'react-social-login';
 import userService from '../services/users';
 
@@ -11,6 +13,48 @@ const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
   </button>
 ));
 
+class ClassicLogin extends Component {
+  constructor() {
+    super();
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { onLoginSuccess, onLoginFailure } = this.props;
+    // TODO call the API here -----------
+    // TODO abstract the interface
+    onLoginSuccess('joel');
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <Field>
+            <Control>
+              <Input type="text" name="email" placeholder="email" />
+            </Control>
+          </Field>
+          <Field>
+            <Control>
+              <Input type="password" name="password" placeholder="password" />
+            </Control>
+          </Field>
+          <Field isGrouped>
+            <Control>
+              <Button isColor="primary" type="submit">
+                Login
+              </Button>
+            </Control>
+          </Field>
+        </form>
+      </div>
+    );
+  }
+}
+
 class Login extends Component {
   constructor() {
     super();
@@ -19,6 +63,8 @@ class Login extends Component {
     this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
     this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
+    this.handleClassicLogin = this.handleClassicLogin.bind(this);
+    this.handleClassicLoginFailure = this.handleClassicLoginFailure.bind(this);
   }
 
   _handlePostLogin(token, user) {
@@ -49,6 +95,14 @@ class Login extends Component {
     console.error('Unable to login user');
   }
 
+  handleClassicLogin(user) {
+    console.log(`successfully logged in ${user}`);
+  }
+
+  handleClassicLoginFailure(err) {
+    console.error('error logging in using classic login.');
+  }
+
   render() {
     return (
       <div>
@@ -75,6 +129,13 @@ class Login extends Component {
             Login with Facebook
           </SocialButton>
         </p>
+
+        <div>
+          <ClassicLogin
+            onLoginSuccess={this.handleClassicLogin}
+            onLoginFailure={this.handleClassicLoginFailure}
+          />
+        </div>
       </div>
     );
   }
