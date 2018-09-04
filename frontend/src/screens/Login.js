@@ -13,47 +13,36 @@ const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
   </button>
 ));
 
-class ClassicLogin extends Component {
-  constructor() {
-    super();
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(e) {
+const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
+  function handleLogin(e) {
     e.preventDefault();
-    const { onLoginSuccess, onLoginFailure } = this.props;
-    // TODO call the API here -----------
-    // TODO abstract the interface
-    onLoginSuccess('joel');
+    onLoginSuccess();
   }
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <Field>
-            <Control>
-              <Input type="text" name="email" placeholder="email" />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Input type="password" name="password" placeholder="password" />
-            </Control>
-          </Field>
-          <Field isGrouped>
-            <Control>
-              <Button isColor="primary" type="submit">
-                Login
-              </Button>
-            </Control>
-          </Field>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form onSubmit={e => handleLogin(e)}>
+        <Field>
+          <Control>
+            <Input type="text" name="email" placeholder="email" />
+          </Control>
+        </Field>
+        <Field>
+          <Control>
+            <Input type="password" name="password" placeholder="password" />
+          </Control>
+        </Field>
+        <Field isGrouped>
+          <Control>
+            <Button isColor="primary" type="submit">
+              Login
+            </Button>
+          </Control>
+        </Field>
+      </form>
+    </div>
+  );
+};
 
 class Login extends Component {
   constructor() {

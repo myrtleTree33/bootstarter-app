@@ -7,3 +7,6 @@ export const SERVICE_USER_GOOGLE_LOGOUT_URL = `${BACKEND_ROOT_URL}/auth/google/l
 
 export const SERVICE_USER_FACEBOOK_LOGOUT_URL = `${BACKEND_ROOT_URL}/auth/facebook/logout`;
 export const SERVICE_USER_FACEBOOK_LOGIN_URL = `${BACKEND_ROOT_URL}/auth/facebook/token`;
+
+export const SERVICE_USER_CLASSIC_LOGOUT_URL = `${BACKEND_ROOT_URL}/auth/classic/logout`;
+export const SERVICE_USER_CLASSIC_LOGIN_URL = `${BACKEND_ROOT_URL}/auth/classic/login`;

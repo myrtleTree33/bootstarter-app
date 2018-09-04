@@ -3,6 +3,10 @@ port: 8081
 db:
   mongoURI: ---
 
+security:
+  bcrypt:
+    saltRounds: 10
+
 socialAuth:
   jwt:
     secret: ---

@@ -3,6 +3,8 @@ import {
   SERVICE_USER_GOOGLE_LOGOUT_URL,
   SERVICE_USER_FACEBOOK_LOGIN_URL,
   SERVICE_USER_FACEBOOK_LOGOUT_URL,
+  SERVICE_USER_CLASSIC_LOGIN_URL,
+  SERVICE_USER_CLASSIC_LOGOUT_URL,
   SERVICE_USER_GET_URL
 } from '../constants/services/users.js';
 
@@ -30,6 +32,12 @@ export function logoutFacebook() {
   // TODO
 }
 
+export function loginClassic() {
+  return fetchJson(SERVICE_USER_CLASSIC_LOGIN_URL);
+}
+
+export function logoutClassic() {}
+
 export function getUser() {
   console.log('Get user got called');
   return fetchJsonAuth(SERVICE_USER_GET_URL);
@@ -40,5 +48,7 @@ export default {
   logoutGoogle,
   loginFacebook,
   logoutFacebook,
+  loginClassic,
+  logoutClassic,
   getUser
 };

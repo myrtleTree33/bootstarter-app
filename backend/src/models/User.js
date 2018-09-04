@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+import { passwordMatches } from '../util/algo';
+
 let userSchema = new mongoose.Schema({
   dateJoined: {
     type: Date,
@@ -19,6 +21,9 @@ let userSchema = new mongoose.Schema({
     trim: true,
     // unique: true,
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  },
+  password: {
+    type: String
   },
   googleProvider: {
     type: {
@@ -65,6 +70,23 @@ userSchema.statics.upsertFacebookUser = function(token, tokenSecret, profile) {
     },
     { upsert: true }
   );
+};
+
+userSchema.statics.verifyAndFindClassicUser = function({ email, password }) {
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const user = await this.findOne({ email });
+      if (!user) {
+        reject('Unable to find user');
+      }
+      const result = await passwordMatches(password, user.password);
+      console.log(result);
+      if (!result) {
+        reject('Invalid password');
+      }
+      resolve(user);
+    })();
+  });
 };
 
 export default mongoose.model('User', userSchema);

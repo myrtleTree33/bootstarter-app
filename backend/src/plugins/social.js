@@ -13,6 +13,13 @@ import jwt from 'jsonwebtoken';
 import config from '../../config';
 import User from '../models/User';
 
+// new User({
+//   firstName: 'joel',
+//   lastName: 'tong',
+//   email: 'me@joeltong.org',
+//   password: 'abc'
+// }).save();
+
 // TODO implement JWT
 // check out https://medium.com/front-end-hacking/learn-using-jwt-with-passport-authentication-9761539c4314
 // TODO https://www.sitepoint.com/spa-social-login-google-facebook/
@@ -198,15 +205,16 @@ function initLocal(app) {
   passport.use(
     new LocalStrategy(
       { usernameField: 'email', passwordField: 'password' },
-      (email, password, done) => {
-        User.verifyAndFindUser({ email, password })
+      (email, password, next) => {
+        // TODO find issue why wrong password error is not caught here in async call
+        User.verifyAndFindClassicUser({ email, password })
           .then(user => next(null, user))
           .catch(err => next(createError(402)));
       }
     )
   );
 
-  app.post('/auth/local/2', passport.authenticate('local'));
+  // app.post('/auth/local/2', passport.authenticate('local'));
 
   app.post('/auth/local', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
