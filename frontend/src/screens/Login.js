@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import SocialLogin from 'react-social-login';
 import userService from '../services/users';
 
+import { Button } from 'antd';
+
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
   <button onClick={triggerLogin} {...props}>
     {children}
@@ -20,6 +22,7 @@ const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
 
   return (
     <div>
+      <Button type="primary">Button</Button>
       <form onSubmit={e => handleLogin(e)}>
         {/* <Field>
           <Control>
