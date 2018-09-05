@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Field, Control, Input, Button } from 'bloomer';
 
 import SocialLogin from 'react-social-login';
 import userService from '../services/users';
@@ -22,7 +21,7 @@ const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
   return (
     <div>
       <form onSubmit={e => handleLogin(e)}>
-        <Field>
+        {/* <Field>
           <Control>
             <Input type="text" name="email" placeholder="email" />
           </Control>
@@ -38,7 +37,7 @@ const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
               Login
             </Button>
           </Control>
-        </Field>
+        </Field> */}
       </form>
     </div>
   );
