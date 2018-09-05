@@ -9,9 +9,9 @@ import userService from '../services/users';
 import { Button } from 'antd';
 
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
-  <button onClick={triggerLogin} {...props}>
+  <Button type="primary" onClick={triggerLogin} {...props}>
     {children}
-  </button>
+  </Button>
 ));
 
 const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
