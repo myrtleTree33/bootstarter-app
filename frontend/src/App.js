@@ -1,29 +1,12 @@
 import React, { Component } from 'react';
-import { Redirect, Link, Switch, Route } from 'react-router-dom';
 
+import { CustomMenu, CustomRoutes } from './routes';
+import userService from './services/users';
 import logo from './logo.svg';
 import './App.css';
-import Home from './screens/Home';
-import Login from './screens/Login';
-import Protected from './screens/Protected';
-import userService from './services/users';
 
-/**
- * Allows the creation of a protected route, if the user is not signed in.
- * @param {*} param0
- */
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  // TODO refactor this if needed
-  const isAuthenticated = localStorage.getItem('token');
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />
-      }
-    />
-  );
-};
+import { Layout } from 'antd';
+const { Header, Content, Footer } = Layout;
 
 class App extends Component {
   constructor() {
@@ -47,20 +30,18 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/protected">Protected</Link>
-          </nav>
-        </header>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/protected" component={Protected} />
-        </Switch>
-      </div>
+      <Layout className="App">
+        <Header>
+          <div className="logo" />
+          <CustomMenu />
+        </Header>
+        <Content style={{ padding: '0 50px' }}>
+          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+            <CustomRoutes />
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Bootstarter-App ©2018</Footer>
+      </Layout>
     );
   }
 }

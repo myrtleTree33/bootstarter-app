@@ -27,12 +27,8 @@
     "prettier-eslint": "^8.8.2"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "start-js": "PORT=8080 react-app-rewired start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build-js": "react-app-rewired build",
-    "build": "npm-run-all build-css build-js",
+    "start": "PORT=8080 react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   }
