@@ -35,10 +35,10 @@ export const CustomMenu = ({}) => {
         <Link to="/">Home</Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to="/login">Login</Link>
+        <Link to="/protected">Protected</Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/protected">Protected</Link>
+        <Link to="/login">Login</Link>
       </Menu.Item>
     </Menu>
   );

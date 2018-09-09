@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { CustomMenu, CustomRoutes } from './routes';
 import userService from './services/users';
 import logo from './logo.svg';
-import './App.css';
+import './App.less';
 
 import { Layout } from 'antd';
 const { Header, Content, Footer } = Layout;
@@ -35,8 +35,8 @@ class App extends Component {
           <div className="logo" />
           <CustomMenu />
         </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+        <Content className="App-Content">
+          <div className="Inner">
             <CustomRoutes />
           </div>
         </Content>
