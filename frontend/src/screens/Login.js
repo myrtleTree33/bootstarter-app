@@ -4,47 +4,17 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import SocialLogin from 'react-social-login';
+import ClassicLogin from '../components/ClassicLogin/ClassicLogin';
 import userService from '../services/users';
 
-import { Button } from 'antd';
+import { Form, Icon, Input, Button, Divider, Checkbox } from 'antd';
+const FormItem = Form.Item;
 
 const SocialButton = SocialLogin(({ children, triggerLogin, ...props }) => (
-  <Button type="primary" onClick={triggerLogin} {...props}>
+  <Button type="primary" size="large" onClick={triggerLogin} {...props}>
     {children}
   </Button>
 ));
-
-const ClassicLogin = ({ onLoginSuccess, onLoginFailure }) => {
-  function handleLogin(e) {
-    e.preventDefault();
-    onLoginSuccess();
-  }
-
-  return (
-    <div>
-      <Button type="primary">Button</Button>
-      <form onSubmit={e => handleLogin(e)}>
-        {/* <Field>
-          <Control>
-            <Input type="text" name="email" placeholder="email" />
-          </Control>
-        </Field>
-        <Field>
-          <Control>
-            <Input type="password" name="password" placeholder="password" />
-          </Control>
-        </Field>
-        <Field isGrouped>
-          <Control>
-            <Button isColor="primary" type="submit">
-              Login
-            </Button>
-          </Control>
-        </Field> */}
-      </form>
-    </div>
-  );
-};
 
 class Login extends Component {
   constructor() {
@@ -120,6 +90,8 @@ class Login extends Component {
             Login with Facebook
           </SocialButton>
         </p>
+
+        <Divider>or</Divider>
 
         <div>
           <ClassicLogin
